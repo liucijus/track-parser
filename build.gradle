@@ -1,0 +1,12 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.google.guava', name: 'guava', version: '15.+'
+    compile group: 'joda-time', name: 'joda-time', version: '2.+'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3+'
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<TrainingCenterDatabase xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd">
+  <Activities>
+    <Activity Sport="Biking">
+      <Id>2012-11-24T06:42:35Z</Id>
+      <Lap StartTime="2012-11-24T06:42:35Z">
+        <TotalTimeSeconds>5</TotalTimeSeconds>
+        <DistanceMeters>25.912920</DistanceMeters>
+        <MaximumSpeed>0</MaximumSpeed>
+        <Calories>0</Calories>
+        <AverageHeartRateBpm xsi:type="HeartRateInBeatsPerMinute_t">
+          <Value>100</Value>
+        </AverageHeartRateBpm>
+        <MaximumHeartRateBpm xsi:type="HeartRateInBeatsPerMinute_t">
+          <Value>200</Value>
+        </MaximumHeartRateBpm>
+        <Intensity>Active</Intensity>
+        <TriggerMethod>Manual</TriggerMethod>
+        <Track>
+          <Trackpoint>
+            <Time>2012-11-24T06:42:35Z</Time>
+            <Position>
+              <LatitudeDegrees>54.709699</LatitudeDegrees>
+              <LongitudeDegrees>25.245331</LongitudeDegrees>
+            </Position>
+            <AltitudeMeters>165.282010</AltitudeMeters>
+          </Trackpoint>
+          <Trackpoint>
+            <Time>2012-11-24T06:42:36Z</Time>
+            <AltitudeMeters>165.064160</AltitudeMeters>
+          </Trackpoint>
+          <Trackpoint>
+            <Time>2012-11-24T06:42:37Z</Time>
+            <Position>
+              <LatitudeDegrees>54.709612</LatitudeDegrees>
+              <LongitudeDegrees>25.245299</LongitudeDegrees>
+            </Position>
+            <AltitudeMeters>164.895780</AltitudeMeters>
+          </Trackpoint>
+        </Track>
+      </Lap>
+    </Activity>
+  </Activities>
+</TrainingCenterDatabase>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx creator="JGPSTrackEdit" version="1.1" xmlns="http://www.topografix.com/GPX/1/1"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Vaidas Pilkauskas</name>
+    <copyright author="null" />
+    <link href="http://www.endomondo.com/workouts/109673075/1917488" >
+      <text>Current Track: 24 NOV 2012 08:42</text>
+    </link>
+    <time>2013-11-30T21:50:09Z</time>
+  </metadata>
+  <trk>
+    <name>Vaidas Pilkauskas</name>
+    <link href="http://www.endomondo.com/workouts/109673075/1917488" />
+    <trkseg>
+      <trkpt lat="54.709699" lon="25.245331">
+        <ele>165.28201</ele>
+      </trkpt>
+      <trkpt lat="54.709651" lon="25.245321">
+        <ele>165.06416</ele>
+      </trkpt>
+      <trkpt lat="54.709612" lon="25.245299">
+        <ele>164.89578</ele>
+      </trkpt>
+      <trkpt lat="54.709577" lon="25.245242">
+        <ele>164.76967</ele>
+      </trkpt>
+      <trkpt lat="54.709552" lon="25.245176">
+        <ele>164.74866</ele>
+      </trkpt>
+      <trkpt lat="54.709523" lon="25.245106">
+        <ele>164.77507</ele>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>
