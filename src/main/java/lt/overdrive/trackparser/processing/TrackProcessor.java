@@ -2,23 +2,15 @@ package lt.overdrive.trackparser.processing;
 
 import lt.overdrive.trackparser.domain.GpsTrack;
 import lt.overdrive.trackparser.domain.GpsTrackPoint;
+import lt.overdrive.trackparser.processing.domain.Segment;
 import lt.overdrive.trackparser.processing.domain.SegmentPoint;
 import lt.overdrive.trackparser.processing.domain.SegmentTrack;
-import lt.overdrive.trackparser.processing.domain.Segment;
 import org.joda.time.Seconds;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class TrackProcessor {
     private static final double EARTH_RADIUS_IN_M = 6372.8 * 1000;
-
     private final SegmentTrack segmentTrack;
     private GpsTrack track;
     private Set<GpsTrackPoint> pointsWithoutTime = new HashSet<>();
@@ -27,6 +19,28 @@ public class TrackProcessor {
     public TrackProcessor(final GpsTrack track) {
         this.track = track;
         this.segmentTrack = convert();
+    }
+
+    private static TrackRectangle calculateTrackRectangle(List<GpsTrackPoint> points) {
+        double maxLatitude = 0;
+        double maxLongitude = 0;
+        double minLatitude = Double.MAX_VALUE;
+        double minLongitude = Double.MAX_VALUE;
+        for (GpsTrackPoint point : points) {
+            maxLatitude = Math.max(maxLatitude, point.getLatitude());
+            minLatitude = Math.min(minLatitude, point.getLatitude());
+            maxLongitude = Math.max(maxLongitude, point.getLongitude());
+            minLongitude = Math.min(minLongitude, point.getLongitude());
+        }
+        return new TrackRectangle(new GpsTrackPoint(maxLatitude, maxLongitude), new GpsTrackPoint(minLatitude, minLongitude));
+    }
+
+    public static TrackRectangle calculateRectangle(List<GpsTrack> tracks) {
+        ArrayList<GpsTrackPoint> points = new ArrayList<>();
+        for (GpsTrack track : tracks) {
+            points.addAll(track.getPoints());
+        }
+        return calculateTrackRectangle(points);
     }
 
     public TrackTotals calculateTotals() {
@@ -165,5 +179,10 @@ public class TrackProcessor {
 
     public SegmentTrack getSegmentTrack() {
         return segmentTrack;
+    }
+
+    public TrackRectangle calculateRectangle() {
+        if (track.getPoints().isEmpty()) return null;
+        return calculateTrackRectangle(track.getPoints());
     }
 }

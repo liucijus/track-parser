@@ -24,6 +24,14 @@ public class GpsTrackPoint {
         this.time = time;
     }
 
+    public GpsTrackPoint(double maxLatitude, double minLongitude) {
+        latitude = maxLatitude;
+        longitude = minLongitude;
+        this.altitude = null;
+
+        this.time = null;
+    }
+
     @Override
     public String toString() {
         return "GpsTrackPoint{" +
