@@ -1,15 +1,15 @@
 package lt.overdrive.trackparser.processing.domain;
 
-import lt.overdrive.trackparser.domain.GpsTrackPoint;
+import lt.overdrive.trackparser.domain.TrackPoint;
 
 public class SegmentPoint {
-    private GpsTrackPoint point;
+    private TrackPoint point;
 
-    public SegmentPoint(GpsTrackPoint point) {
+    public SegmentPoint(TrackPoint point) {
         this.point = point;
     }
 
-    public GpsTrackPoint getPoint() {
+    public TrackPoint getPoint() {
         return point;
     }
 }

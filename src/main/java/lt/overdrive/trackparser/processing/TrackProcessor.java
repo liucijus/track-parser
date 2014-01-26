@@ -1,7 +1,7 @@
 package lt.overdrive.trackparser.processing;
 
-import lt.overdrive.trackparser.domain.GpsTrack;
-import lt.overdrive.trackparser.domain.GpsTrackPoint;
+import lt.overdrive.trackparser.domain.Track;
+import lt.overdrive.trackparser.domain.TrackPoint;
 import lt.overdrive.trackparser.processing.domain.Segment;
 import lt.overdrive.trackparser.processing.domain.SegmentPoint;
 import lt.overdrive.trackparser.processing.domain.SegmentTrack;
@@ -12,32 +12,32 @@ import java.util.*;
 public class TrackProcessor {
     private static final double EARTH_RADIUS_IN_M = 6372.8 * 1000;
     private final SegmentTrack segmentTrack;
-    private GpsTrack track;
-    private Set<GpsTrackPoint> pointsWithoutTime = new HashSet<>();
-    private Set<GpsTrackPoint> pointsWithoutAltitude = new HashSet<>();
+    private Track track;
+    private Set<TrackPoint> pointsWithoutTime = new HashSet<>();
+    private Set<TrackPoint> pointsWithoutAltitude = new HashSet<>();
 
-    public TrackProcessor(final GpsTrack track) {
+    public TrackProcessor(final Track track) {
         this.track = track;
         this.segmentTrack = convert();
     }
 
-    private static TrackRectangle calculateTrackRectangle(List<GpsTrackPoint> points) {
+    private static TrackRectangle calculateTrackRectangle(List<TrackPoint> points) {
         double maxLatitude = 0;
         double maxLongitude = 0;
         double minLatitude = Double.MAX_VALUE;
         double minLongitude = Double.MAX_VALUE;
-        for (GpsTrackPoint point : points) {
+        for (TrackPoint point : points) {
             maxLatitude = Math.max(maxLatitude, point.getLatitude());
             minLatitude = Math.min(minLatitude, point.getLatitude());
             maxLongitude = Math.max(maxLongitude, point.getLongitude());
             minLongitude = Math.min(minLongitude, point.getLongitude());
         }
-        return new TrackRectangle(new GpsTrackPoint(maxLatitude, maxLongitude), new GpsTrackPoint(minLatitude, minLongitude));
+        return new TrackRectangle(new TrackPoint(maxLatitude, maxLongitude), new TrackPoint(minLatitude, minLongitude));
     }
 
-    public static TrackRectangle calculateRectangle(List<GpsTrack> tracks) {
-        ArrayList<GpsTrackPoint> points = new ArrayList<>();
-        for (GpsTrack track : tracks) {
+    public static TrackRectangle calculateRectangle(List<Track> tracks) {
+        ArrayList<TrackPoint> points = new ArrayList<>();
+        for (Track track : tracks) {
             points.addAll(track.getPoints());
         }
         return calculateTrackRectangle(points);
@@ -94,63 +94,63 @@ public class TrackProcessor {
     private SegmentTrack convert() {
         List<Segment> segments = new ArrayList<>();
         List<SegmentPoint> segmentPoints = new ArrayList<>();
-        List<GpsTrackPoint> points = track.getPoints();
-        for (ListIterator<GpsTrackPoint> iterator = points.listIterator(); iterator.hasNext(); ) {
+        List<TrackPoint> points = track.getPoints();
+        for (ListIterator<TrackPoint> iterator = points.listIterator(); iterator.hasNext(); ) {
             processSegment(segments, points, iterator.previousIndex(), iterator.nextIndex());
             processPoint(segmentPoints, iterator.next());
         }
         return new SegmentTrack(segments, segmentPoints);
     }
 
-    private void processPoint(List<SegmentPoint> segmentPoints, GpsTrackPoint point) {
+    private void processPoint(List<SegmentPoint> segmentPoints, TrackPoint point) {
         populateWithoutTimeIfNeeded(point);
         populateWithoutAltitudeIfNeeded(point);
 
         segmentPoints.add(new SegmentPoint(point));
     }
 
-    private void processSegment(List<Segment> segments, List<GpsTrackPoint> points, int previousIndex, int nextIndex) {
+    private void processSegment(List<Segment> segments, List<TrackPoint> points, int previousIndex, int nextIndex) {
         if (validIndexes(points, previousIndex, nextIndex)) {
             Segment segment = createSegment(points, previousIndex, nextIndex);
             segments.add(segment);
         }
     }
 
-    private void populateWithoutAltitudeIfNeeded(GpsTrackPoint point) {
+    private void populateWithoutAltitudeIfNeeded(TrackPoint point) {
         if (point.getAltitude() == null) pointsWithoutAltitude.add(point);
     }
 
-    private void populateWithoutTimeIfNeeded(GpsTrackPoint point) {
+    private void populateWithoutTimeIfNeeded(TrackPoint point) {
         if (point.getTime() == null) pointsWithoutTime.add(point);
     }
 
-    private Segment createSegment(List<GpsTrackPoint> points, int previousIndex, int nextIndex) {
-        GpsTrackPoint point1 = points.get(previousIndex);
-        GpsTrackPoint point2 = points.get(nextIndex);
+    private Segment createSegment(List<TrackPoint> points, int previousIndex, int nextIndex) {
+        TrackPoint point1 = points.get(previousIndex);
+        TrackPoint point2 = points.get(nextIndex);
         Segment segment = new Segment(point1, point2);
         segment.setDistance(calculateDistance(point1, point2));
         return segment;
     }
 
-    private boolean validIndexes(List<GpsTrackPoint> points, int previousIndex, int nextIndex) {
+    private boolean validIndexes(List<TrackPoint> points, int previousIndex, int nextIndex) {
         return previousIndex != -1 && nextIndex < points.size();
     }
 
     private Seconds calculateTotalTime() {
-        List<GpsTrackPoint> points = track.getPoints();
+        List<TrackPoint> points = track.getPoints();
         int size = points.size();
         return size > 0 ? calculateTimeBetweenPoints(points.get(0), points.get(size - 1)) : Seconds.ZERO;
     }
 
-    private Seconds calculateTimeBetweenPoints(GpsTrackPoint firstPoint, GpsTrackPoint lastPoint) {
+    private Seconds calculateTimeBetweenPoints(TrackPoint firstPoint, TrackPoint lastPoint) {
         return pointsHaveTime(firstPoint, lastPoint) ? calculateTime(firstPoint, lastPoint) : null;
     }
 
-    private boolean pointsHaveTime(GpsTrackPoint firstPoint, GpsTrackPoint lastPoint) {
+    private boolean pointsHaveTime(TrackPoint firstPoint, TrackPoint lastPoint) {
         return firstPoint.getTime() != null && lastPoint.getTime() != null;
     }
 
-    private Seconds calculateTime(GpsTrackPoint point1, GpsTrackPoint point2) {
+    private Seconds calculateTime(TrackPoint point1, TrackPoint point2) {
         return Seconds.secondsBetween(point1.getTime(), point2.getTime());
     }
 
@@ -159,7 +159,7 @@ public class TrackProcessor {
      *
      * @see <a href="http://en.wikipedia.org/wiki/Haversine_formula">Haversine formula</a>
      */
-    private double calculateDistance(GpsTrackPoint point1, GpsTrackPoint point2) {
+    private double calculateDistance(TrackPoint point1, TrackPoint point2) {
         double latitude1 = point1.getLatitude();
         double latitude2 = point2.getLatitude();
         double latitudeDistance = Math.toRadians(latitude2 - latitude1);

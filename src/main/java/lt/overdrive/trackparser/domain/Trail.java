@@ -2,14 +2,14 @@ package lt.overdrive.trackparser.domain;
 
 import java.util.List;
 
-public class GpsTrail {
-    private List<GpsTrack> tracks;
+public class Trail {
+    private List<Track> tracks;
 
-    public GpsTrail(List<GpsTrack> tracks) {
+    public Trail(List<Track> tracks) {
         this.tracks = tracks;
     }
 
-    public List<GpsTrack> getTracks() {
+    public List<Track> getTracks() {
         return tracks;
     }
 
@@ -18,9 +18,9 @@ public class GpsTrail {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GpsTrail gpsTrail = (GpsTrail) o;
+        Trail trail = (Trail) o;
 
-        return tracks.equals(gpsTrail.tracks);
+        return tracks.equals(trail.tracks);
     }
 
     @Override

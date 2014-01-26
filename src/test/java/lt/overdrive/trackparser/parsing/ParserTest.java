@@ -1,6 +1,6 @@
 package lt.overdrive.trackparser.parsing;
 
-import lt.overdrive.trackparser.domain.GpsTrail;
+import lt.overdrive.trackparser.domain.Trail;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,7 +15,7 @@ public class ParserTest {
     public void shouldDetectTcxFile_givenValidTcxFile() throws Exception {
         File tcxFile = getFile("tcx/test_with_ele.tcx");
 
-        GpsTrail trail = Parser.parseFile(tcxFile);
+        Trail trail = Parser.parseFile(tcxFile);
 
         assertThat(trail.getTracks(), not(empty()));
     }
@@ -24,14 +24,14 @@ public class ParserTest {
     public void shouldThrowInvalidFileException_givenInvalidFile() throws Exception {
         File tcxFile = getFile("tcx/invalid.tcx");
 
-        GpsTrail trail = Parser.parseFile(tcxFile);
+        Parser.parseFile(tcxFile);
     }
 
     @Test
     public void shouldDetectGpxFile_givenValidGpxFile() throws Exception {
         File gpxFile = getFile("gpx/test_with_ele.gpx");
 
-        GpsTrail trail = Parser.parseFile(gpxFile);
+        Trail trail = Parser.parseFile(gpxFile);
 
         assertThat(trail.getTracks(), not(empty()));
     }

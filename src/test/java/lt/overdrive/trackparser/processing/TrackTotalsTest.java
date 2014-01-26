@@ -1,11 +1,8 @@
 package lt.overdrive.trackparser.processing;
 
-import com.google.common.collect.ImmutableList;
-import lt.overdrive.trackparser.domain.GpsTrack;
+import lt.overdrive.trackparser.domain.Track;
 import org.joda.time.Seconds;
 import org.junit.Test;
-
-import java.util.Collections;
 
 import static lt.overdrive.trackparser.CommonGpsTestDataHelper.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -13,10 +10,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 
 public class TrackTotalsTest {
-
     @Test
     public void totalDistanceShouldBeZero_givenEmptyTrack() {
-        GpsTrack track = new GpsTrack(Collections.EMPTY_LIST);
+        Track track = trackOf();
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -25,7 +21,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalDistanceShouldBeZero_givenOnePointTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1));
+        Track track = trackOf(POINT_1);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -34,7 +30,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalDistanceShouldBeCorrect_givenTrackWithTrackPoints() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2, POINT_3));
+        Track track = trackOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -43,7 +39,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalTimeShouldBeZero_givenEmptyTrack() {
-        GpsTrack track = new GpsTrack(Collections.EMPTY_LIST);
+        Track track = trackOf();
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -52,7 +48,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalTimeShouldBeZero_givenOnePointTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1));
+        Track track = trackOf(POINT_1);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -61,7 +57,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalTimeShouldBeCorrect_givenTrackWithPoints() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2, POINT_3));
+        Track track = trackOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -70,7 +66,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalTimeShouldNotBeSet_givenTimelessTrack() {
-        GpsTrack track = new GpsTrack(prepareTrackPointsWithoutTime(ImmutableList.of(POINT_1, POINT_2, POINT_3)));
+        Track track = trackWithoutTimeOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -79,7 +75,7 @@ public class TrackTotalsTest {
 
     @Test
     public void averageSpeedShouldBeCorrect_givenTrackWithPoints() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2, POINT_3));
+        Track track = trackOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -88,7 +84,7 @@ public class TrackTotalsTest {
 
     @Test
     public void averageSpeedShouldNotBeSet_giventTimelessTrack() {
-        GpsTrack track = new GpsTrack(prepareTrackPointsWithoutTime(ImmutableList.of(POINT_1, POINT_2, POINT_3)));
+        Track track = trackWithoutTimeOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -97,7 +93,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalAscentShouldBeCorrect_givenTrackWithPoints() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2, POINT_3));
+        Track track = trackOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -106,7 +102,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalAscentShouldNotBeSet_givenTrackWithoutAltitude() {
-        GpsTrack track = new GpsTrack(prepareTrackPointsWithoutAltitude(ImmutableList.of(POINT_1, POINT_2, POINT_3)));
+        Track track = trackWithoutAltitudeOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -115,7 +111,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalDescentShouldBeCorrect_givenTrackWithPoints() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2, POINT_3));
+        Track track = trackOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -124,7 +120,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalDescentShouldNotBeSet_givenTrackWithoutAltitude() {
-        GpsTrack track = new GpsTrack(prepareTrackPointsWithoutAltitude(ImmutableList.of(POINT_1, POINT_2, POINT_3)));
+        Track track = trackWithoutAltitudeOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -133,7 +129,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalAscentShouldBeZero_givenOnePointTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1));
+        Track track = trackOf(POINT_1);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -142,7 +138,7 @@ public class TrackTotalsTest {
 
     @Test
     public void totalDescentShouldBeZero_givenOnePointTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1));
+        Track track = trackOf(POINT_1);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -151,7 +147,7 @@ public class TrackTotalsTest {
 
     @Test
     public void maxSpeedShouldBeZero_givenEmptyTrack() {
-        GpsTrack track = new GpsTrack(Collections.EMPTY_LIST);
+        Track track = trackOf();
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -160,7 +156,7 @@ public class TrackTotalsTest {
 
     @Test
     public void maxSpeedShouldBeZero_givenOnePointTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1));
+        Track track = trackOf();
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -169,7 +165,7 @@ public class TrackTotalsTest {
 
     @Test
     public void maxSpeedShouldBeCorrect_givenTrackWithTime() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2, POINT_3));
+        Track track = trackOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -178,7 +174,7 @@ public class TrackTotalsTest {
 
     @Test
     public void minSpeedShouldBeZero_givenEmptyTrack() {
-        GpsTrack track = new GpsTrack(Collections.EMPTY_LIST);
+        Track track = trackOf();
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -187,7 +183,7 @@ public class TrackTotalsTest {
 
     @Test
     public void minSpeedShouldBeZero_givenOnePointTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1));
+        Track track = trackOf(POINT_1);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -196,7 +192,7 @@ public class TrackTotalsTest {
 
     @Test
     public void minSpeedShouldBeCorrect_givenTrackWithTime() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2, POINT_3));
+        Track track = trackOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -205,7 +201,7 @@ public class TrackTotalsTest {
 
     @Test
     public void maxSpeedShouldNotBeSet_givenTrackWithoutTime() {
-        GpsTrack track = new GpsTrack(prepareTrackPointsWithoutTime(ImmutableList.of(POINT_1, POINT_2, POINT_3)));
+        Track track = trackWithoutTimeOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 
@@ -214,7 +210,7 @@ public class TrackTotalsTest {
 
     @Test
     public void minSpeedShouldNotBeSet_givenTrackWithoutTime() {
-        GpsTrack track = new GpsTrack(prepareTrackPointsWithoutTime(ImmutableList.of(POINT_1, POINT_2, POINT_3)));
+        Track track = trackWithoutTimeOf(POINT_1, POINT_2, POINT_3);
 
         TrackTotals totals = new TrackProcessor(track).calculateTotals();
 

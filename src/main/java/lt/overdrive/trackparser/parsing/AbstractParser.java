@@ -1,6 +1,6 @@
 package lt.overdrive.trackparser.parsing;
 
-import lt.overdrive.trackparser.domain.GpsTrail;
+import lt.overdrive.trackparser.domain.Trail;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -14,7 +14,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.File;
 
 public abstract class AbstractParser implements GpsFileParser {
-    public GpsTrail parse(File file) throws ParserException {
+    public Trail parse(File file) throws ParserException {
         if (!file.exists()) throw new ParserException("File " + file + " does not exist.");
         try {
             return loadTrail(file);
@@ -25,9 +25,9 @@ public abstract class AbstractParser implements GpsFileParser {
         }
     }
 
-    protected abstract GpsTrail throwInvalidFileException(UnmarshalException pe) throws ParserException;
+    protected abstract Trail throwInvalidFileException(UnmarshalException pe) throws ParserException;
 
-    protected abstract GpsTrail loadTrail(File file) throws Exception;
+    protected abstract Trail loadTrail(File file) throws Exception;
 
     protected Object loadXml(File file, Class clazz) throws JAXBException, ParserException {
         JAXBContext context = JAXBContext.newInstance(clazz);

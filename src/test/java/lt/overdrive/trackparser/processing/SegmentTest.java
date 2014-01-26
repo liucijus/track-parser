@@ -1,12 +1,9 @@
 package lt.overdrive.trackparser.processing;
 
-import com.google.common.collect.ImmutableList;
-import lt.overdrive.trackparser.domain.GpsTrack;
-import lt.overdrive.trackparser.processing.domain.SegmentTrack;
+import lt.overdrive.trackparser.domain.Track;
 import lt.overdrive.trackparser.processing.domain.Segment;
+import lt.overdrive.trackparser.processing.domain.SegmentTrack;
 import org.junit.Test;
-
-import java.util.Collections;
 
 import static lt.overdrive.trackparser.CommonGpsTestDataHelper.*;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -17,7 +14,7 @@ import static org.hamcrest.collection.IsEmptyCollection.empty;
 public class SegmentTest {
     @Test
     public void segmentsShouldBeEmpty_givenEmptyTrack() {
-        GpsTrack track = new GpsTrack(Collections.EMPTY_LIST);
+        Track track = trackOf();
 
         SegmentTrack segmentTrack = new TrackProcessor(track).getSegmentTrack();
 
@@ -26,7 +23,7 @@ public class SegmentTest {
 
     @Test
     public void segmentsShouldBeEmpty_givenOnePointTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1));
+        Track track = trackOf(POINT_1);
 
         SegmentTrack segmentTrack = new TrackProcessor(track).getSegmentTrack();
 
@@ -35,7 +32,7 @@ public class SegmentTest {
 
     @Test
     public void shouldBeOnePoint_givenOnePointTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1));
+        Track track = trackOf(POINT_1);
 
         SegmentTrack segmentTrack = new TrackProcessor(track).getSegmentTrack();
 
@@ -44,7 +41,7 @@ public class SegmentTest {
 
     @Test
     public void thereShouldBeOneLessSegmentsThanPoints_givenCorrectTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2, POINT_3));
+        Track track = trackOf(POINT_1, POINT_2, POINT_3);
 
         SegmentTrack segmentTrack = new TrackProcessor(track).getSegmentTrack();
 
@@ -53,7 +50,7 @@ public class SegmentTest {
 
     @Test
     public void thereShouldBeCorrectNumberOfSegments_givenCorrectTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2, POINT_3));
+        Track track = trackOf(POINT_1, POINT_2, POINT_3);
 
         SegmentTrack segmentTrack = new TrackProcessor(track).getSegmentTrack();
 
@@ -62,7 +59,7 @@ public class SegmentTest {
 
     @Test
     public void segmentShouldHaveCorrectPoints_givenCorrectTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2));
+        Track track = trackOf(POINT_1, POINT_2);
 
         SegmentTrack segmentTrack = new TrackProcessor(track).getSegmentTrack();
 
@@ -71,7 +68,7 @@ public class SegmentTest {
 
     @Test
     public void segmentTrackShouldHaveCorrectPoints_givenCorrectTrack() {
-        GpsTrack track = new GpsTrack(ImmutableList.of(POINT_1, POINT_2));
+        Track track = trackOf(POINT_1, POINT_2);
 
         SegmentTrack segmentTrack = new TrackProcessor(track).getSegmentTrack();
 

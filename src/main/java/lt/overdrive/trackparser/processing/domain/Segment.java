@@ -1,14 +1,14 @@
 package lt.overdrive.trackparser.processing.domain;
 
-import lt.overdrive.trackparser.domain.GpsTrackPoint;
+import lt.overdrive.trackparser.domain.TrackPoint;
 import org.joda.time.Seconds;
 
 public class Segment {
-    private final GpsTrackPoint point1;
-    private final GpsTrackPoint point2;
+    private final TrackPoint point1;
+    private final TrackPoint point2;
     private double distance;
 
-    public Segment(GpsTrackPoint point1, GpsTrackPoint point2) {
+    public Segment(TrackPoint point1, TrackPoint point2) {
         this.point1 = point1;
         this.point2 = point2;
     }

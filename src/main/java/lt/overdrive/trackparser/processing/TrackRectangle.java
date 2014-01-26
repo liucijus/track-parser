@@ -1,30 +1,30 @@
 package lt.overdrive.trackparser.processing;
 
-import lt.overdrive.trackparser.domain.GpsTrackPoint;
+import lt.overdrive.trackparser.domain.TrackPoint;
 
 public class TrackRectangle {
-    private GpsTrackPoint topRightPoint;
-    private GpsTrackPoint bottomLeftPoint;
+    private TrackPoint topRightPoint;
+    private TrackPoint bottomLeftPoint;
 
-    public TrackRectangle(GpsTrackPoint topRightPoint, GpsTrackPoint bottomLeftPoint) {
+    public TrackRectangle(TrackPoint topRightPoint, TrackPoint bottomLeftPoint) {
         this.topRightPoint = topRightPoint;
         this.bottomLeftPoint = bottomLeftPoint;
     }
 
-    public GpsTrackPoint getTopRightPoint() {
+    public TrackPoint getTopRightPoint() {
         return topRightPoint;
     }
 
-    public GpsTrackPoint getBottomLeftPoint() {
+    public TrackPoint getBottomLeftPoint() {
         return bottomLeftPoint;
     }
 
-    public GpsTrackPoint getCenterPoint() {
+    public TrackPoint getCenterPoint() {
         double topLatitude = topRightPoint.getLatitude();
         double latitude = topLatitude - ((topLatitude - bottomLeftPoint.getLatitude()) / 2);
         double topLongitude = topRightPoint.getLongitude();
         double longitude = topLongitude - ((topLongitude - bottomLeftPoint.getLongitude()) / 2);
 
-        return new GpsTrackPoint(latitude, longitude);
+        return new TrackPoint(latitude, longitude);
     }
 }

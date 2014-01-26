@@ -2,7 +2,7 @@ package lt.overdrive.trackparser.domain;
 
 import org.joda.time.DateTime;
 
-public class GpsTrackPoint {
+public class TrackPoint {
     private final Double latitude;
     private final Double longitude;
     private final Double altitude;
@@ -16,7 +16,7 @@ public class GpsTrackPoint {
      * @param altitude  - altitude in meters
      * @param time      - time point is registered
      */
-    public GpsTrackPoint(final Double latitude, final Double longitude, final Double altitude, final DateTime time) {
+    public TrackPoint(final Double latitude, final Double longitude, final Double altitude, final DateTime time) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.altitude = altitude;
@@ -24,7 +24,7 @@ public class GpsTrackPoint {
         this.time = time;
     }
 
-    public GpsTrackPoint(double maxLatitude, double minLongitude) {
+    public TrackPoint(double maxLatitude, double minLongitude) {
         latitude = maxLatitude;
         longitude = minLongitude;
         this.altitude = null;
@@ -34,7 +34,7 @@ public class GpsTrackPoint {
 
     @Override
     public String toString() {
-        return "GpsTrackPoint{" +
+        return "TrackPoint{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", altitude=" + altitude +
@@ -47,7 +47,7 @@ public class GpsTrackPoint {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GpsTrackPoint that = (GpsTrackPoint) o;
+        TrackPoint that = (TrackPoint) o;
 
         if (altitude != null ? !altitude.equals(that.altitude) : that.altitude != null) return false;
         if (latitude != null ? !latitude.equals(that.latitude) : that.latitude != null) return false;

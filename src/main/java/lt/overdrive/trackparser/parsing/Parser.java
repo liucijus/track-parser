@@ -1,6 +1,6 @@
 package lt.overdrive.trackparser.parsing;
 
-import lt.overdrive.trackparser.domain.GpsTrail;
+import lt.overdrive.trackparser.domain.Trail;
 import lt.overdrive.trackparser.parsing.gpx.GpxParser;
 import lt.overdrive.trackparser.parsing.tcx.TcxParser;
 
@@ -19,7 +19,7 @@ public class Parser {
         this.file = file;
     }
 
-    public static GpsTrail parseFile(File file) throws ParserException {
+    public static Trail parseFile(File file) throws ParserException {
         Parser parser = new Parser(file);
 
         GpsFileType type = parser.guessFileType();

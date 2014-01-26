@@ -1,8 +1,7 @@
 package lt.overdrive.trackparser.parsing.tcx;
 
-import com.google.common.collect.ImmutableList;
+import lt.overdrive.trackparser.domain.Trail;
 import lt.overdrive.trackparser.parsing.ParserException;
-import lt.overdrive.trackparser.domain.GpsTrail;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,44 +36,41 @@ public class TcxTest {
 
     @Test
     public void parserShouldLoadOneActivity_givenOneActivityFile() throws Exception {
-        GpsTrail trail = new TcxParser().parse(getFile("tcx/valid.tcx"));
+        Trail trail = new TcxParser().parse(getFile("tcx/valid.tcx"));
 
         assertThat(trail.getTracks().size(), equalTo(1));
     }
 
     @Test
     public void parserShouldLoadTwoTracks_givenTwoTracksFile() throws Exception {
-        GpsTrail trail = new TcxParser().parse(getFile("tcx/2activities.tcx"));
+        Trail trail = new TcxParser().parse(getFile("tcx/2activities.tcx"));
 
         assertThat(trail.getTracks().size(), equalTo(2));
     }
 
     @Test
     public void parserShouldSkipTrackPointsWithoutPosition() throws Exception {
-        String fileName = "tcx/missing_position.tcx";
-        GpsTrail expectedTrail = prepareTrail(ImmutableList.of(POINT_1, POINT_3));
+        Trail expectedTrail = prepareTrail(POINT_1, POINT_3);
 
-        GpsTrail trail = new TcxParser().parse(getFile(fileName));
+        Trail trail = new TcxParser().parse(getFile("tcx/missing_position.tcx"));
 
         assertThat(trail, Matchers.samePropertyValuesAs(expectedTrail));
     }
 
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenTcxFileWithAltitude() throws Exception {
-        String fileName = "tcx/test_with_ele.tcx";
-        GpsTrail expected = prepareTrail(ImmutableList.of(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6));
+        Trail expected = prepareTrail(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
-        GpsTrail trail = new TcxParser().parse(getFile(fileName));
+        Trail trail = new TcxParser().parse(getFile("tcx/test_with_ele.tcx"));
 
         assertThat(trail, Matchers.samePropertyValuesAs(expected));
     }
 
     @Test
     public void parserShouldLoadDomainDataCorrectly_givenTcxFileWithoutAltitude() throws Exception {
-        String fileName = "tcx/test_no_ele.tcx";
-        GpsTrail expected = prepareTrailWithoutAltitude(ImmutableList.of(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6));
+        Trail expected = prepareTrailWithoutAltitude(POINT_1, POINT_2, POINT_3, POINT_4, POINT_5, POINT_6);
 
-        GpsTrail trail = new TcxParser().parse(getFile(fileName));
+        Trail trail = new TcxParser().parse(getFile("tcx/test_no_ele.tcx"));
 
         assertThat(trail, Matchers.samePropertyValuesAs(expected));
     }
