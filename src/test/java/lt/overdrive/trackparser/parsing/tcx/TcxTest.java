@@ -10,7 +10,7 @@ import org.junit.rules.ExpectedException;
 import java.io.File;
 
 import static lt.overdrive.trackparser.CommonGpsTestDataHelper.*;
-import static lt.overdrive.trackparser.utils.ResourceUtils.getFile;
+import static lt.overdrive.trackparser.utils.TestResourceUtils.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 

@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static lt.overdrive.trackparser.utils.ResourceUtils.getFile;
+import static lt.overdrive.trackparser.utils.TestResourceUtils.getFile;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
