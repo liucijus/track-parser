@@ -74,5 +74,14 @@ public class TcxTest {
 
         assertThat(trail, Matchers.samePropertyValuesAs(expected));
     }
+    
+
+    @Test
+    public void parserShouldLoadOneCourse_givenOneCourseFile() throws Exception {
+        Trail trail = new TcxParser().parse(getFile("tcx/test_with_course.tcx"));
+
+        assertThat(trail.getTracks().size(), equalTo(1));
+    }
+
 }
 
