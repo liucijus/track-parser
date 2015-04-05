@@ -11,6 +11,7 @@ import lt.overdrive.trackparser.domain.Track;
 import lt.overdrive.trackparser.parsing.tcx.schema.ActivityLapT;
 import lt.overdrive.trackparser.parsing.tcx.schema.ActivityT;
 import lt.overdrive.trackparser.parsing.tcx.schema.PositionT;
+import lt.overdrive.trackparser.parsing.tcx.schema.CourseT;
 import lt.overdrive.trackparser.parsing.tcx.schema.TrackT;
 import lt.overdrive.trackparser.parsing.tcx.schema.TrackpointT;
 import lt.overdrive.trackparser.parsing.tcx.schema.TrainingCenterDatabaseT;
@@ -33,10 +34,24 @@ public class TcxParser extends AbstractParser {
 
     private List<Track> extractTracks(TrainingCenterDatabaseT database) {
         List<Track> tracks = new ArrayList<>();
-        for (ActivityT activityT : database.getActivities().getActivity()) {
-            extractActivityTracks(tracks, activityT);
-        }
+        if(database.getActivities() != null){
+		for (ActivityT activityT : database.getActivities().getActivity()) {
+		    extractActivityTracks(tracks, activityT);
+		}
+	}
+        if(database.getCourses() != null){
+		for (CourseT courseT : database.getCourses().getCourse()) {
+		    extractCourseTracks(tracks, courseT);
+		}
+	}
+
         return tracks;
+    }
+
+    private void extractCourseTracks(List<Track> tracks, CourseT courseT) {
+        for (TrackT trackT : courseT.getTrack()) {
+	    tracks.add(new Track(extractGpsTrackPoints(trackT)));
+        }
     }
 
     private void extractActivityTracks(List<Track> tracks, ActivityT activityT) {
